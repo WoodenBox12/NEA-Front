@@ -26,7 +26,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  /*min-height: 100vh;    somehow makes everything lower down, no clue why*/
 }
 
 h1 {
@@ -52,3 +52,22 @@ h1 {
 .button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/*::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track 
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Handle 
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Handle on hover 
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.1);
+}*/

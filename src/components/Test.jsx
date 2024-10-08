@@ -7,7 +7,7 @@ const Test = () => {
     const [URL, setURL] = useState(`http://localhost:5000/createaccount`)
     const [JSONData, setJSON] = useState(`{
     "username": "olly",
-    "password": "olly"
+    "password": "olly123"
 }`)
 
 
@@ -30,7 +30,6 @@ const Test = () => {
         })
     }
 
-
     return (
         <>
             <h1>REST api test page</h1>
@@ -38,12 +37,14 @@ const Test = () => {
                 <div>
                     <label htmlFor="url">post url:</label>
                     <br/>
-                    <input type="text" defaultValue={URL} size="30" onChange={(e) => setURL(e.target.value)}/>
+                    <input className="button" id="url" type="text" defaultValue={URL} size="30" required onChange={(e) => {
+                        console.log("trigger")
+                        setURL(e.target.value)}}/>
                 </div>
                 <div>
                     <label htmlFor="json">data:</label>
                     <br/>
-                    <textarea id="json" rows="4" cols="30" defaultValue={JSONData} spellCheck="false" onChange={(e) => setJSON(e.target.value)}/>
+                    <textarea className="button" id="json" rows="4" cols="30" defaultValue={JSONData} spellCheck="false" required onChange={(e) => setJSON(e.target.value)}/>
                 </div>
 
                 <input className="button" type="submit" value="send request"></input>
