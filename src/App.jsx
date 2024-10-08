@@ -12,11 +12,11 @@ function App() {
     <>
       <h1>Olly NEA</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button className="button" onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
       </div>
-      <Link to="/test">test page</Link>
+      <Link className="button" to="/test">test page</Link>
     </>
   )
 }
