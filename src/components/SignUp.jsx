@@ -8,29 +8,37 @@ const SignUp = () => {
     const [pass, SetPass] = useState("")
 
     function UserUpdate(e) {
-        console.log("onblur")
-
-        // logic to check if password is free
-        // to improve make it call only when they stop typing/ click off box
-        // think onblur is when clicked off
+        e.preventDefault()
+        axios.post(
+            "http://localhost:5000/validateusername", {"username": user}, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        ).then((response) => {
+            document.getElementById("validateuser").innerHTML = response.data.message
+        })
     }
 
     return (
         <>
-            <form className="card">
+            <form className="card" autoComplete="off">
                 <div>
                     <label htmlFor="username">username:</label>
                     <input 
                     className="button" id="username" type="text" 
-                    minLength={5} required 
-                    onChange={(e) => SetUser(e.target.value)} 
-                    onBlur={UserUpdate}
-                    />
+                     required // still works if under min length
+                    //onChange={(e) => SetUser(e.target.value)} 
+                    onBlur={(e) => {
+                        SetUser(e.target.value)
+                        UserUpdate(e)// dont allow submit if username in use (less work for backend)
+                    }}/>
+                    <div id="validateuser" className="card"></div>
                 </div>
 
                 <div>
                     <label  htmlFor="password">password:</label>
-                    <input className="button" id="password" type="password" minLength={5} required onChange={(e) => SetUser(e.target.value)} />
+                    <input className="button" id="password" type="password" minLength={5} required onBlur={(e) => SetPass(e.target.value)} />
                 </div>
 
                 <input className="button" type="submit" value="Computer go Brrr Brrr"/>

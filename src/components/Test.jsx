@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 
 const Test = () => {
-    const [URL, setURL] = useState(`http://localhost:5000/createaccount`)
+    const [URL, setURL] = useState("http://localhost:5000/createaccount")
     const [JSONData, setJSON] = useState(`{
     "username": "olly",
     "password": "olly123"
@@ -20,7 +20,6 @@ const Test = () => {
                     "Content-Type": "application/json",
                 },
             }
-            //headers go here when i know what the hell they are
         ).then((response) => {
             console.log(response)
             document.getElementById("response").innerHTML = JSON.stringify(response.data)
@@ -37,14 +36,14 @@ const Test = () => {
                 <div>
                     <label htmlFor="url">post url:</label>
                     <br/>
-                    <input className="button" id="url" type="text" defaultValue={URL} size="30" required onChange={(e) => {
+                    <input className="button" id="url" type="text" defaultValue={URL} size="30" required onBlur={(e) => {
                         console.log("trigger")
                         setURL(e.target.value)}}/>
                 </div>
                 <div>
                     <label htmlFor="json">data:</label>
                     <br/>
-                    <textarea className="button" id="json" rows="4" cols="30" defaultValue={JSONData} spellCheck="false" required onChange={(e) => setJSON(e.target.value)}/>
+                    <textarea className="button" id="json" rows="4" cols="30" defaultValue={JSONData} spellCheck="false" required onBlur={(e) => setJSON(e.target.value)}/>
                 </div>
 
                 <input className="button" type="submit" value="send request"></input>
