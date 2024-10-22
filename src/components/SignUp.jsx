@@ -10,13 +10,15 @@ const SignUp = () => {
     function UserUpdate(e) {
         e.preventDefault()
         axios.post(
-            "http://localhost:5000/validateusername", {"username": user}, {
+            "http://localhost:5000/validateusername", {"username": e.target.value}, {// if user instead of e.target.value its delayed
                 headers: {
                     "Content-Type": "application/json",
                 },
             }
         ).then((response) => {
             document.getElementById("validateuser").innerHTML = response.data.message
+        }).catch((err) => {
+            console.log(err.message)
         })
     }
 
@@ -27,11 +29,13 @@ const SignUp = () => {
                     <label htmlFor="username">username:</label>
                     <input 
                     className="button" id="username" type="text" 
-                     required // still works if under min length
+                    required autoFocus// still works if under min length
                     //onChange={(e) => SetUser(e.target.value)} 
                     onBlur={(e) => {
                         SetUser(e.target.value)
                         UserUpdate(e)// dont allow submit if username in use (less work for backend)
+                        console.log(user)
+                        console.log(e.target.value)// some reason the 2 are different i have no clue why atm   i think its a react hook thing i need to learn
                     }}/>
                     <div id="validateuser" className="card"></div>
                 </div>
