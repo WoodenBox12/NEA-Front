@@ -17,6 +17,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #747bff;
 }
@@ -26,7 +27,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  /*min-height: 100vh;    /*somehow makes everything lower down, no clue why*/
+  min-height: 100vh;    /*somehow makes everything lower down, no clue why*/
 }
 
 h1 {
@@ -45,16 +46,21 @@ h1 {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 .button:hover {
   border-color: #646cff;
 }
-.button:focus,
-.button:focus-visible {
+
+.button:focus,.button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
 input,textarea {/*doesent work for some reason fix later*/
   cursor: text;
+}
+
+input:invalid,textarea:invalid {
+  border-color: #b93737;
 }
 
 /*::-webkit-scrollbar {

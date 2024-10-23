@@ -6,9 +6,12 @@ const NoPage = () => {
 
     // mabye put cookie code in here
 
+
+
     return(
         <>
             <h1>404</h1>
+            <p>{window.location.href} does not exist</p>
         </>
     )
 }

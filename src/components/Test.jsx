@@ -36,9 +36,7 @@ const Test = () => {
                 <div>
                     <label htmlFor="url">post url:</label>
                     <br/>
-                    <input className="button" id="url" type="text" defaultValue={URL} size="30" required onBlur={(e) => {
-                        console.log("trigger")
-                        setURL(e.target.value)}}/>
+                    <input className="button" id="url" type="text" defaultValue={URL} size="30" required onBlur={(e) => {setURL(e.target.value)}}/>
                 </div>
                 <div>
                     <label htmlFor="json">data:</label>
