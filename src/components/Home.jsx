@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 
 const Home = () => {
@@ -8,8 +8,11 @@ const Home = () => {
         doNotParse: true,
     });
     
-
-    console.log(cookies["sessionId"])
+    useEffect(() => {
+        setTimeout(() => {
+            console.log(cookies["sessionId"])// prints twice for some reason
+        }, 0)
+    }, [])
 
     if (cookies["sessionId"] == null) {
         return (

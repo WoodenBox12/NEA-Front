@@ -1,15 +1,26 @@
 import axios from 'axios'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 
 const SignIn = () => {
     const [user, SetUser] = useState("")
     const [pass, SetPass] = useState("")
+    const navigate = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(["sessionId"], {
         doNotParse: true,
     });
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (cookies["sessionId"] != null) {
+                navigate("/home", {
+                    replace: true
+                })
+            }
+        }, 0)
+    }, [])// the [] makes it only run on the first render instead of every render
 
 
 
@@ -24,11 +35,14 @@ const SignIn = () => {
             },
         }).then((response) => {
             console.log(response.data)
-            let expiry = new Date()
-            expiry.setDate(Date.now())
             setCookie("sessionId", response.data.sessionId, {
-                "maxAge": response.data.expiry * 60 * 60
+                "maxAge": response.data.expiry
             })
+            if (response.data.successful == true) {
+                navigate("/home", {
+                    replace: true
+                })
+            } 
         }).catch((err) => {
             console.error(err)
         })
