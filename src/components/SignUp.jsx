@@ -24,7 +24,7 @@ const SignUp = () => {
             }
             e.target.setCustomValidity("")
         }).catch((err) => {
-            console.log(err.message)
+            console.error(err)
         })
     }
 
@@ -44,7 +44,7 @@ const SignUp = () => {
         }).then((response) => {
             console.log(response.data)
         }).catch((err) => {
-            console.err(err)
+            console.error(err)
         })
     }
 
@@ -76,6 +76,7 @@ const SignUp = () => {
                 <input className="button" type="submit" value="Computer go Brrr Brrr"/>
             </form>
 
+            <Link className="button" to="/signin">i already have an account</Link>
             <Link className="button" to="/">back to index</Link>
         </>
     )

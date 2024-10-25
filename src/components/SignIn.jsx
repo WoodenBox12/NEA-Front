@@ -1,14 +1,37 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 
 const SignIn = () => {
     const [user, SetUser] = useState("")
     const [pass, SetPass] = useState("")
+    const [cookies, setCookie, removeCookie] = useCookies(["sessionId"], {
+        doNotParse: true,
+    });
+
+
 
     function SignIn(e) {
-
+        e.preventDefault()
+        axios.post("http://localhost:5000/generatesession", {
+            "username":user,
+            "password":pass
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((response) => {
+            console.log(response.data)
+            let expiry = new Date()
+            expiry.setDate(Date.now())
+            setCookie("sessionId", response.data.sessionId, {
+                "maxAge": response.data.expiry * 60 * 60
+            })
+        }).catch((err) => {
+            console.error(err)
+        })
     }
 
     return (
@@ -30,7 +53,7 @@ const SignIn = () => {
                 <input className="button" type="submit" value="Sign In"/>
             </form>
 
-            <Link className="button" to="/">back to index</Link>
+            <Link className="button" to="/">create account</Link>
         </>
     )
 }
