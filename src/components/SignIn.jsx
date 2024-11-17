@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 
@@ -11,7 +11,6 @@ const SignIn = () => {
         doNotParse: true,
     })
     const navigate = useNavigate()
-
 
 
     function SignIn(e) {
