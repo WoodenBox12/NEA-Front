@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const SignUp = () => {
     const [user, SetUser] = useState("")
     const [pass, SetPass] = useState("")
     const [confirmpass, SetConfirmPass] = useState("")
+    const navigate = useNavigate()
 
     function UserUpdate(e) {
         e.preventDefault()
@@ -42,7 +43,9 @@ const SignUp = () => {
                 "Content-Type": "application/json",
             },
         }).then((response) => {
-            console.log(response.data)
+            if (response.data.successful) {// possibly add pause
+                navigate("/signin")
+            }
         }).catch((err) => {
             console.error(err)
         })

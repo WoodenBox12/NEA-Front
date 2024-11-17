@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 
@@ -9,7 +9,8 @@ const SignIn = () => {
     const [pass, SetPass] = useState("")
     const [cookies, setCookie, removeCookie] = useCookies(["sessionId"], {
         doNotParse: true,
-    });
+    })
+    const navigate = useNavigate()
 
 
 
@@ -23,12 +24,12 @@ const SignIn = () => {
                 "Content-Type": "application/json",
             },
         }).then((response) => {
-            console.log(response.data)
-            let expiry = new Date()
-            expiry.setDate(Date.now())
-            setCookie("sessionId", response.data.sessionId, {
-                "maxAge": response.data.expiry * 60 * 60
-            })
+            if (response.data.successful) {
+                setCookie("sessionId", response.data.sessionId, {
+                    "maxAge": response.data.expiry * 60 * 60
+                })
+                navigate("/home")
+            }       
         }).catch((err) => {
             console.error(err)
         })

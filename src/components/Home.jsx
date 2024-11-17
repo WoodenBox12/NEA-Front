@@ -13,7 +13,7 @@ const Home = () => {
 
     if (cookies["sessionId"] == null) {
         return (
-            <Navigate to="/signin" replace></Navigate>
+            <Navigate to="/signin" replace />
         )
     }
 
