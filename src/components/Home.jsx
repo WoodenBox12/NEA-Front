@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
