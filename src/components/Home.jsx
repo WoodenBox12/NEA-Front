@@ -9,9 +9,7 @@ const Home = () => {
     });
     
     useEffect(() => {
-        setTimeout(() => {
-            console.log(cookies["sessionId"])// prints twice for some reason
-        }, 0)
+        console.log(cookies["sessionId"])// prints twice for some reason
     }, [])
 
     if (cookies["sessionId"] == null) {

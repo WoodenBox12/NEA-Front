@@ -11,11 +11,12 @@ import Home from './components/Home.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <>{/*removed strict mode*/}
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<App />} />
+          <Route path="index.html" element={<App />} />{/*test to fix chrome extention*/}
           <Route path="test" element={<Test />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="signin" element={<SignIn />} />
@@ -24,5 +25,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 )

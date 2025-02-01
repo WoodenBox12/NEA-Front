@@ -13,7 +13,13 @@ function App() {
           count is {count}
         </button>
       </div>
-      <Link className="button" to="/test">test page</Link>
+      <div className="grid">
+        <Link className="button" to="/test">test page</Link>
+        <Link className="button" to="/signup">sign up</Link>
+        <Link className="button" to="/signin">sign in</Link>
+        <Link className="button" to="/home">home page</Link>
+        <Link className="button" to="/404">404 page</Link>
+      </div>
     </>
   )
 }

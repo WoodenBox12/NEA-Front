@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { json, Link } from 'react-router-dom'
 
 
 const Test = () => {
@@ -15,18 +15,22 @@ const Test = () => {
         e.preventDefault()
         console.log(URL)
         console.log(JSONData)
-        axios.post(URL, JSONData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        ).then((response) => {
-            console.log(response)
-            document.getElementById("response").innerHTML = JSON.stringify(response.data)
-            
-        }).catch((err) => {
-            console.error(err)
+
+        const request = new Response(URL,{
+            method: "POST",
+            body: JSON.stringify(JSONData)
         })
+
+        fetch(URL, {
+            method: "POST",
+            body: JSONData,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then((data) => {
+            console.log(data)
+            document.getElementById("response").innerHTML = JSON.stringify(data)
+        }).catch(err => console.log(err))
     }
 
     return (

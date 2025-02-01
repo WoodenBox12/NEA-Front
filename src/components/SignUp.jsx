@@ -4,66 +4,68 @@ import { Link, useNavigate } from 'react-router-dom'
 
 
 const SignUp = () => {
-    const [user, SetUser] = useState("")
+    const [email, SetEmail] = useState("")
     const [pass, SetPass] = useState("")
     const [confirmpass, SetConfirmPass] = useState("")
     const navigate = useNavigate()
 
-    function UserUpdate(e) {
+    const EmailUpdate = (e) => {
         e.preventDefault()
-        axios.post(
-            "http://localhost:5000/validateusername", {"username": e.target.value}, {// if user instead of e.target.value its delayed
-                headers: {
-                    "Content-Type": "application/json",
-                },
+        
+        fetch("http://localhost:5000/validateemail", {
+            method: "POST",
+            body: JSON.stringify({"email": e.target.value}),
+            headers: {
+                "Content-Type": "application/json"
             }
-        ).then((response) => {
-            document.getElementById("validateuser").innerHTML = response.data.message            
-            if (!response.data.successful) {
-                e.target.setCustomValidity("username already in use")
+        }).then(response => response.json()).then((data) => {
+            document.getElementById("validateemail").innerHTML = data.message        
+            if (!data.success) {
+                e.target.setCustomValidity("email already in use")
                 return
             }
             e.target.setCustomValidity("")
-        }).catch((err) => {
-            console.error(err)
-        })
+        }).catch(err => console.log(err))
     }
 
-    function CreateAccount(e) {
+    const CreateAccount = (e) => {
         e.preventDefault()
         if (pass != confirmpass) {
-            alert("usernames don't match")
+            alert("passwords don't match")
             return
         }
-        axios.post("http://localhost:5000/createaccount", {
-            "username":user,
-            "password":pass
-        }, {
+
+        //web crypto required
+        alert("needs web crypto")
+        /*fetch("http://localhost:5000/createaccount", {
+            method: "POST",
+            body: JSON.stringify({
+                "email":email,
+                "password":pass
+            }),
             headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((response) => {
-            if (response.data.successful) {// possibly add pause
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then((data) => {
+            if (data.success) {// possibly add pause
                 navigate("/signin")
             }
-        }).catch((err) => {
-            console.error(err)
-        })
+        }).catch(err => console.log(err))*/
     }
 
     return (
         <>
             <form className="card" autoComplete="off" onSubmit={CreateAccount}>
                 <div>
-                    <label htmlFor="username">username:</label>
+                    <label htmlFor="email">email:</label>
                     <input 
-                    className="button" id="username" type="text" 
-                    minLength={5} required autoFocus defaultValue="username" 
+                    className="button" id="email" type="email"
+                    minLength={5} required autoFocus defaultValue="email" 
                     onBlur={(e) => {
-                        SetUser(e.target.value)
-                        UserUpdate(e)
+                        SetEmail(e.target.value)
+                        EmailUpdate(e)
                     }}/>
-                    <div id="validateuser" className="card"></div>
+                    <div id="validateemail" className="card"></div>
                 </div>
 
                 <div>

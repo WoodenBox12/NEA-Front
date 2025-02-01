@@ -63,21 +63,21 @@ input:invalid,textarea:invalid {
   border-color: #b93737;
 }
 
-/*::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Track 
+/* Track */
 ::-webkit-scrollbar-track {
   background: rgba(255,255,255,0.2);
 }
 
-/* Handle 
+/* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.1);
 }
 
-/* Handle on hover 
+/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.1);
-}*/
+}

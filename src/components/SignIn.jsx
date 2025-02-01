@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie'
 
 
 const SignIn = () => {
-    const [user, SetUser] = useState("")
+    const [email, SetEmail] = useState("")
     const [pass, SetPass] = useState("")
     const [cookies, setCookie, removeCookie] = useCookies(["sessionId"], {
         doNotParse: true,
@@ -13,36 +13,39 @@ const SignIn = () => {
     const navigate = useNavigate()
 
 
-    function SignIn(e) {
+    const SignIn = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:5000/generatesession", {
-            "username":user,
-            "password":pass
-        }, {
+
+        // webcrypto required
+        alert("needs web crypto")
+        /*fetch("http://localhost:5000/generatesession", {
+            method: "POST",
+            body: JSON.stringify({
+                "email":email,
+                "password":pass
+            }),
             headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((response) => {
-            if (response.data.successful) {
-                setCookie("sessionId", response.data.sessionId, {
-                    "maxAge": response.data.expiry * 60 * 60
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then((data) => {
+            if (data.successful) {
+                setCookie("sessionId", data.sessionId, {
+                    "maxAge": data.expiry * 60 * 60
                 })
                 navigate("/home")
-            }       
-        }).catch((err) => {
-            console.error(err)
-        })
+            }  
+        }).catch(err => console.log(err))*/
     }
 
     return (
         <>
             <form className="card" autoComplete="off" onSubmit={SignIn}>
                 <div>
-                    <label htmlFor="username">username:</label>
+                    <label htmlFor="email">email:</label>
                     <input 
-                    className="button" id="username" type="text" 
-                    minLength={5} required autoFocus defaultValue="username" 
-                    onBlur={(e) => {SetUser(e.target.value)}}/>
+                    className="button" id="email" type="text" 
+                    minLength={5} required autoFocus defaultValue="email" 
+                    onBlur={(e) => {SetEmail(e.target.value)}}/>
                 </div>
 
                 <div>
@@ -53,7 +56,7 @@ const SignIn = () => {
                 <input className="button" type="submit" value="Sign In"/>
             </form>
 
-            <Link className="button" to="/">create account</Link>
+            <Link className="button" to="/signup">create account</Link>
         </>
     )
 }
