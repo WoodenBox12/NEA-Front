@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 
 const Layout = () => {
 
-    // mabye put cookie code in here
+    useEffect(() => {
+        console.log("test")
+    }, [])
 
     return(
         <>

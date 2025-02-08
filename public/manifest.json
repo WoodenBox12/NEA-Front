@@ -9,10 +9,20 @@
   "permissions": [
     "activeTab",
     "cookies",
-    "webRequest"
+    "webRequest",
+    "scripting",
+    "tabs"
   ],
   "host_permissions": [
-    "http://*/*"
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [ "content-scripts/test.js" ]
+    }
   ],
   "icons": {
     "32": "NEA.png"

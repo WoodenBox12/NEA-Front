@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { bufferToHex, Request, calculateAuth } from '../Utility'
 
 
 const SignUp = () => {
@@ -8,48 +9,38 @@ const SignUp = () => {
     const [confirmpass, SetConfirmPass] = useState("")
     const navigate = useNavigate()
 
-    const EmailUpdate = (e) => {
+    const EmailUpdate = async (e) => {
         e.preventDefault()
-        
-        fetch("http://localhost:5000/validateemail", {
-            method: "POST",
-            body: JSON.stringify({"email": e.target.value}),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(response => response.json()).then((data) => {
+
+        Request("validateemail", JSON.stringify({"email": e.target.value})).then((data) => {
             document.getElementById("validateemail").innerHTML = data.message        
             if (!data.success) {
                 e.target.setCustomValidity("email already in use")
                 return
             }
             e.target.setCustomValidity("")
-        }).catch(err => console.log(err))
+        })
     }
 
-    const CreateAccount = (e) => {
+    const CreateAccount = async (e) => {
         e.preventDefault()
+
         if (pass != confirmpass) {
             alert("passwords don't match")
             return
         }
 
-        //web crypto required
-        alert("needs web crypto")
-        /*fetch("http://localhost:5000/createaccount", {
-            method: "POST",
-            body: JSON.stringify({
-                "email":email,
-                "password":pass
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(response => response.json()).then((data) => {
+        const auth = await calculateAuth(email, pass)
+          
+        Request("createaccount", JSON.stringify({
+            "email":email,
+            "auth":auth
+        })).then((data) => {
+            console.log(data)
             if (data.success) {// possibly add pause
                 navigate("/signin")
             }
-        }).catch(err => console.log(err))*/
+        })
     }
 
     return (

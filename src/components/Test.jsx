@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { json, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
+import { Request } from '../Utility'
 
 
 const Test = () => {
@@ -15,10 +17,7 @@ const Test = () => {
         console.log(URL)
         console.log(JSONData)
 
-        const request = new Response(URL,{
-            method: "POST",
-            body: JSON.stringify(JSONData)
-        })
+
 
         fetch(URL, {
             method: "POST",

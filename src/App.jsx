@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
-
+// alow ?r=home for re-directing on extension open
   return (
     <>
       <h1>Olly NEA</h1>
