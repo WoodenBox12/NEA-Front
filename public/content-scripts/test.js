@@ -1,8 +1,5 @@
 
 
-function test(){
-    console.log("hello?")
-}
 
 // use observer to check for a form on the page when triggered
 
@@ -23,14 +20,13 @@ const onChange = async () => {
         return
     }
 
-    console.log(window.location.hostname)
-
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    /*chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log(sender.tab ?
             "from a content script:" + sender.tab.url :
             "from the extension");
         console.log(request)
-    })
+    })*/
+
     console.log("form detected (html insterted or smthn like that)")
 }
 
@@ -42,7 +38,6 @@ const detectForm = () => {
 
     const sum = user + email + passwords
     
-    console.log(document.getElementsByTagName("form"))
     console.log(`${forms}${user}${email}${passwords}`)
 
     if (sum > 0) {

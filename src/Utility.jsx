@@ -1,8 +1,9 @@
 // the quick reload thing doesent allways work when changing these functions (i learnt that the hard way)
 
+import Cookies from "universal-cookie"
+
 export const PBKDF2 = async (encodedPassword, encodedSalt, length, iter) => {
     
-
     const key = await crypto.subtle.importKey(
         "raw",
         encodedPassword,
@@ -24,7 +25,7 @@ export const PBKDF2 = async (encodedPassword, encodedSalt, length, iter) => {
 }
 export const bufferToHex = (buffer) => {
     const keyArray = Array.from(new Uint8Array(buffer))
-    const out = Array.prototype.map.call(keyArray, x => ('00' + x.toString(16)).slice(-2)).join('')
+    const out = Array.prototype.map.call(keyArray, x => ("00" + x.toString(16)).slice(-2)).join("")
     return out
 }
 export const hexToBuffer = (hex) => {
@@ -40,7 +41,7 @@ export const calculateBaseKey = async (email, password) => {
 
     return bufferToHex(baseKey)
 }
-export const calculateAuth = async (email, password) => {
+export const calculateAuth = async (email, password) => {// requires redoing
     const encoder = new TextEncoder()
 
     const encodedPassword = encoder.encode(email + password)
@@ -54,35 +55,39 @@ export const calculateAuth = async (email, password) => {
 
     return bufferToHex(auth)
 }
-export const calculateKey = async (email, password, encodedKeySalt) => {
-    const encoder = new TextEncoder()
-
-    const encodedPassword = encoder.encode(email + password)
-    const encodedSalt = encoder.encode("placeholder salt")
-
-    const baseKey = await PBKDF2(encodedPassword, encodedSalt, 64, 1000000)
-
-    const key = await PBKDF2(baseKey, encodedKeySalt, 32, 1000000)
+export const calculateKey = async (baseKey, encodedKeySalt) => {
+    const key = await PBKDF2(hexToBuffer(baseKey), encodedKeySalt, 32, 1000000)
     return key
 }
-export const Request = (path, body) => {
+export const request = (path, body, call=0) => {// uses stupid recursion for marks
     return fetch(`http://localhost:5000/${path}`, {
         method: "POST",
         body: body,
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(response => response.json()).catch(err => undefined)
+    }).then(response => response.json()).then((data) => {
+        const cookies = new Cookies(null)
+        if (!data.success) {        
+            if (data.message == "server encountered an error" && call < 1) {
+                return request(path, body, call+1)
+            }
+            else if (data.message == "invalid session") {
+                cookies.remove("sessionId")
+                cookies.remove("baseKey")
+            }
+        }
+        return data
+    }).catch(err => undefined)
 }
-export const encryptVault = async (email, password, data) => {
+export const encryptVault = async (baseKey, data) => {
 
-    
     const keySalt = await crypto.getRandomValues(new Uint8Array(32)).buffer
     const nonce = await crypto.getRandomValues(new Uint8Array(12)).buffer
 
     const key = await crypto.subtle.importKey(
         "raw", 
-        await calculateKey(email, password, keySalt), // same output as encrypt input
+        await calculateKey(baseKey, keySalt), // same output as encrypt input
         {"name": "AES-GCM"}, 
         false, 
         ["encrypt"]
@@ -94,17 +99,17 @@ export const encryptVault = async (email, password, data) => {
     const vault = await crypto.subtle.encrypt({name:"AES-GCM", iv:nonce}, key, encodedData)
 
     return {
-        "vault":bufferToHex(vault),
+        "data":bufferToHex(vault),
         "nonce":bufferToHex(nonce),
         "keySalt":bufferToHex(keySalt)
     }
 }
-export const decryptVault = async (email, password, nonce, keySalt, vault) => {
+export const decryptVault = async (baseKey, nonce, keySalt, vault) => {
 
 
     const key = await crypto.subtle.importKey(
         "raw", 
-        await calculateKey(email, password, hexToBuffer(keySalt)),// same input as encrypt output
+        await calculateKey(baseKey, hexToBuffer(keySalt)),
         {"name": "AES-GCM"}, 
         false, 
         ["decrypt"]
@@ -121,7 +126,13 @@ export const decryptVault = async (email, password, nonce, keySalt, vault) => {
 export const hashSite = async (site, email) => {
     const encoder = new TextEncoder()
     const encodedData = encoder.encode(email + site)
-    const hash = crypto.subtle.digest("SHA-256", encodedData)
-    console.log(hash)
+    const hash = bufferToHex(await crypto.subtle.digest("SHA-256", encodedData))
     return hash
 }
+export const isExtension = (chrome.tabs != undefined)
+export const extGetUrl = async () => {
+    const Url = (await chrome.tabs.query({ active: true, currentWindow: true }))[0].url
+    return getUrl(Url)
+}
+export const getUrl = (Uri) => Uri.match(/^(?<url>[^?]*)/i).groups.url
+export const getDomain = (Uri) => Uri.match(/(https?:\/\/)(?<domain>[^:\/\?,]*)/i).groups.domain

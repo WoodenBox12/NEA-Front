@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { bufferToHex, Request, calculateAuth } from '../Utility'
+
+import { request, calculateAuth } from '../Utility'
 
 
 const SignUp = () => {
@@ -10,16 +11,15 @@ const SignUp = () => {
     const navigate = useNavigate()
 
     const EmailUpdate = async (e) => {
-        e.preventDefault()
 
-        Request("validateemail", JSON.stringify({"email": e.target.value})).then((data) => {
-            document.getElementById("validateemail").innerHTML = data.message        
-            if (!data.success) {
-                e.target.setCustomValidity("email already in use")
-                return
-            }
-            e.target.setCustomValidity("")
-        })
+        const data = await request("validateemail", JSON.stringify({"email": e.target.value}))
+
+        document.getElementById("validateemail").innerHTML = data.message        
+        if (!data.success) {
+            e.target.setCustomValidity("email already in use")
+            return
+        }
+        e.target.setCustomValidity("")
     }
 
     const CreateAccount = async (e) => {
@@ -32,15 +32,15 @@ const SignUp = () => {
 
         const auth = await calculateAuth(email, pass)
           
-        Request("createaccount", JSON.stringify({
+        const data = await request("createaccount", JSON.stringify({
             "email":email,
             "auth":auth
-        })).then((data) => {
-            console.log(data)
-            if (data.success) {// possibly add pause
-                navigate("/signin")
-            }
-        })
+        }))
+
+        console.log(data)
+        if (data.success) {
+            navigate("/signin")
+        }
     }
 
     return (
@@ -50,17 +50,21 @@ const SignUp = () => {
                     <label htmlFor="email">email:</label>
                     <input 
                     className="button" id="email" type="email"
-                    minLength={5} required autoFocus defaultValue="email" 
+                    minLength={5} required autoFocus placeholder="name@email" 
                     onBlur={(e) => {
                         SetEmail(e.target.value)
                         EmailUpdate(e)
-                    }}/>
+                    }}
+                    autoComplete="email"/>
                     <div id="validateemail" className="card"></div>
                 </div>
 
                 <div>
                     <label  htmlFor="password">password:</label>
-                    <input className="button" id="password" type="password" minLength={5} required onBlur={(e) => SetPass(e.target.value)} />
+                    <input 
+                    className="button" id="password" type="password" 
+                    minLength={5} required onBlur={(e) => SetPass(e.target.value)} 
+                    autoComplete="new-password"/>
                 </div>
 
                 <div>
@@ -72,7 +76,6 @@ const SignUp = () => {
             </form>
 
             <Link className="button" to="/signin">i already have an account</Link>
-            <Link className="button" to="/">back to index</Link>
         </>
     )
 }

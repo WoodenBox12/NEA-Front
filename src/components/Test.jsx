@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from "react"
+import { Link } from "react-router-dom"
 
-import { Request } from '../Utility'
 
 
 const Test = () => {
@@ -12,7 +11,7 @@ const Test = () => {
 }`)
 
 
-    function SendRequest(e) {
+    const SendRequest = (e) => {
         e.preventDefault()
         console.log(URL)
         console.log(JSONData)
