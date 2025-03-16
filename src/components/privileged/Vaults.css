@@ -1,4 +1,42 @@
 
 .noSelect {
-    user-select: none;
+  user-select: none;
+}
+
+.row {
+  float: left;
+}
+
+.area {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  border-color: black;
+}
+
+.eye {
+  background-image: url("../../assets/eye.svg");
+}
+
+.copy {
+  background-image: url("../../assets/copy.svg");
+}
+
+.edit {
+  background-image: url("../../assets/edit.svg");
+}
+
+.tick {
+  background-image: url("../../assets/tick.svg");
+}
+
+.bin {
+  background-image: url("../../assets/bin.svg");
+}
+  
+.img {
+  width: 2.4em;
+  height: 2.4em;
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  background-position: center;
 }

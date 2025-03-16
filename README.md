@@ -2,8 +2,9 @@
 
 ## To-Do
 ### required
-- [ ] finish Vaults.jsx
-- [ ] get settings working for changing PBKDF2/Argon2id params
+- [x] finish Vaults.jsx
+- [x] get settings working for changing PBKDF2/Argon2id params
+- [ ] password generator
 ### optional
 - [ ] make better css for the whole project
 - [ ] get the extension to be able to autofill usernames and passwords

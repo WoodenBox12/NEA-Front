@@ -27,7 +27,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;    /*somehow makes everything lower down, no clue why*/
+  min-height: 100vh;
 }
 
 h1 {
@@ -41,7 +41,6 @@ h1 {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
   background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
@@ -55,13 +54,39 @@ h1 {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-input,textarea {/*doesent work for some reason fix later*/
+input {
   cursor: text;
 }
 
-input:invalid,textarea:invalid {
+input:invalid {
   border-color: #b93737;
 }
+
+
+
+
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 3%;
+}
+
+.grid > a {
+  text-align: center;
+
+}
+
+
 
 ::-webkit-scrollbar {
   width: 10px;

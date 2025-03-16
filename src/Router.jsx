@@ -1,8 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import App from "./App.jsx"
-
-import Test from "./components/Test"
 import SignUp from "./components/SignUp"
 import NoPage from "./components/NoPage"
 import SignIn from "./components/SignIn"
@@ -15,31 +12,24 @@ import Export from "./components/privileged/Export"
 import Settings from "./components/privileged/Settings.jsx"
 
 const Router = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Privileged />}>
-                    <Route index element={<Home />} />
-                    <Route path="index.html" element={<Home />} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Privileged />}>
+          <Route index element={<Home />} />
+          <Route path="index.html" element={<Home />} />
+          <Route path="addpassword" element={<AddPassword />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="import" element={<Import />} />
+          <Route path="export" element={<Export />} />
+        </Route>
 
-                    <Route path="addpassword" element={<AddPassword />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="import" element={<Import />} />
-                    <Route path="export" element={<Export />} />
-                </Route>
-
-                <Route path="/temp" element={<App />} />
-
-                <Route path="/test" element={<Test />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="*" element={<NoPage />} />
-            </Routes>
-        </BrowserRouter>
-    )
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="*" element={<NoPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
-
-
-
 
 export default Router

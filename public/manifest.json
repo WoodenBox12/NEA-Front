@@ -21,7 +21,7 @@
       "matches": [
         "*://*/*"
       ],
-      "js": [ "content-scripts/test.js" ]
+      "js": [ "content-scripts/script.js" ]
     }
   ],
   "icons": {
